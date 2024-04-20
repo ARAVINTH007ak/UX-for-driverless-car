@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driverless Ride-Share Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #map-image {
+            height: 400px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .section-padding {
+            padding: 20px;
+        }
+        .bg-light-custom {
+            background-color: #f8f9fa;
+        }
+        #end-session-btn {
+            width: 100%;
+        }
+        .media-control {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Driverless Ride-Share Dashboard</h1>
+        
+        <!-- Information Section -->
+        <div class="info-section mb-3 p-3 bg-light-custom">
+            <h2>Vehicle Information</h2>
+            <p>Status: <strong id="vehicle-status">Initializing...</strong></p>
+            <p>Speed: <strong id="vehicle-speed">0 km/h</strong></p>
+            <p>Battery: <strong id="vehicle-battery">100% remaining</strong></p>
+        </div>
+
+        <!-- Weather Update Section -->
+        <div class="weather-section mb-3 p-3 bg-light-custom">
+            <h2>Weather Updates</h2>
+            <p>Current Weather: <strong>Sunny, 23°C</strong></p>
+        </div>
+
+        <!-- Safety Measures Section -->
+        <div class="safety-section mb-3 p-3 bg-light-custom">
+            <h2>Safety Measures</h2>
+            <button class="btn btn-primary" onclick="showSafety('normal')">Normal Operation</button>
+            <button class="btn btn-danger" onclick="showSafety('alert')">Alert Mode</button>
+            <div id="safety-display" class="alert alert-warning mt-3" role="alert">
+                Safety visualization display would go here.
+            </div>
+        </div>
+
+        <!-- Emergency Stop Button -->
+        <button class="btn btn-warning btn-lg mb-3" onclick="emergencyStop()">Emergency Stop</button>
+
+        <!-- Entertainment Section -->
+        <div class="entertainment-section bg-light-custom p-3 mb-3">
+            <h2>Entertainment</h2>
+            <div class="media-control">
+                <button class="btn btn-success" onclick="playMusic()">Play Music</button>
+                <button class="btn btn-danger" onclick="stopMusic()">Stop Music</button>
+            </div>
+            <div class="video-player mt-3">
+                <p>Video stream could be displayed here.</p>
+                <!-- Placeholder for video streaming service -->
+            </div>
+        </div>
+
+        <!-- Map Section -->
+        <div class="map-section bg-light-custom section-padding">
+            <h2>Route Map</h2>
+            <img id="map-image" src="path-to-your-map-image.jpg" alt="Map of the route">
+        </div>
+
+        <!-- End Session Button -->
+        <button id="end-session-btn" class="btn btn-danger btn-lg mt-3 mb-5" onclick="endSession()">End Session</button>
+    </div>
+
+    <script>
+        function updateVehicleInfo() {
+            let speed = 0;
+            let battery = 100;
+
+            setInterval(() => {
+                if (speed < 100) {
+                    speed += 5;
+                    battery -= 1;
+                } else {
+                    speed = 100; // max speed reached
+                }
+                
+                document.getElementById("vehicle-status").textContent = "Operating";
+                document.getElementById("vehicle-speed").textContent = `${speed} km/h`;
+                document.getElementById("vehicle-battery").textContent = `${battery}% remaining`;
+
+            }, 1000); // updates every 1 second
+        }
+
+        function showSafety(mode) {
+            const display = document.getElementById("safety-display");
+            if (mode === 'normal') {
+                display.className = 'alert alert-success';
+                display.textContent = 'All systems are functioning within normal parameters.';
+            } else if (mode === 'alert') {
+                display.className = 'alert alert-danger';
+                display.textContent = 'Warning! Proximity alert activated. Please check surroundings.';
+            }
+        }
+
+        function emergencyStop() {
+            clearInterval(updateInterval);
+            document.getElementById("vehicle-status").textContent = "Emergency Stop";
+            document.getElementById("vehicle-speed").textContent = "0 km/h";
+            alert("Emergency stop activated!");
+        }
+
+        function endSession() {
+            clearInterval(updateInterval);
+            document.getElementById("vehicle-status").textContent = "Session Ended";
+            document.getElementById("vehicle-speed").textContent = "0 km/h";
+            document.getElementById("vehicle-battery").textContent = "100% remaining";
+            alert("Session has been ended and data has been reset.");
+        }
+
+        // Example functions for entertainment controls
+        function playMusic() {
+            alert("Playing music... (This is a simulation.)");
+        }
+
+        function stopMusic() {
+            alert("Music stopped.");
+        }
+
+        var updateInterval = setInterval(updateVehicleInfo, 1000);
+
+        // Start vehicle data updates on page load
+        window.onload = updateVehicleInfo;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
